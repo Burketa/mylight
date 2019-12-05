@@ -1,5 +1,5 @@
 const TPLSmartDevice = require("tplink-lightbulb");
-const lightConfig = require("../../config");
+const lightConfig = require("../config");
 
 const light = new TPLSmartDevice(lightConfig.ip);
 

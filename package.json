@@ -19,7 +19,9 @@
   },
   "dependencies": {
     "body-parser": "^1.15.0",
+    "cors": "^2.8.5",
     "express": "*",
+    "request": "^2.81.0",
     "tplink-lightbulb": "^1.5.1"
   }
 }

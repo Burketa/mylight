@@ -1,35 +1,27 @@
 const light = require("./LightFunctions");
-
-const config = {
-  on: "on",
-  off: "off",
-  low: "low",
-  random: "random",
-  rave: "rave",
-  cycle: "cycle"
-};
+const config = require("../config");
 
 module.exports = {
   async light(req, res) {
     switch (req.params.state) {
-      case config.on:
+      case config.states.on:
         light.turnOn();
         break;
 
-      case config.off:
+      case config.states.off:
         light.turnOff();
         break;
 
-      case config.low:
+      case config.states.low:
         light.lowLight();
         break;
 
-      case config.random:
-      case config.rave:
+      case config.states.random:
+      case config.states.rave:
         light.rave();
         break;
 
-      case config.cycle:
+      case config.states.cycle:
         light.cycle();
         break;
 
