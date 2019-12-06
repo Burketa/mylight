@@ -1,6 +1,9 @@
-const TPLSmartDevice = require("tplink-lightbulb");
+//Imports
 const lightConfig = require("../config");
+const functions = require("../Functions");
+const TPLSmartDevice = require("tplink-lightbulb");
 
+//Inits
 const light = new TPLSmartDevice(lightConfig.ip);
 
 const transition_period_total =
@@ -9,11 +12,9 @@ const transition_period_total =
 let isBreathing = false;
 let isRandom = false;
 
+//Funcs
 module.exports = {
-  //TODO implementar um toggle
-  async toggle(state = null) {},
-
-  async turnOn() {
+  turnOn() {
     isBreathing = false;
     isRandom = false;
 
@@ -24,23 +25,38 @@ module.exports = {
     });
   },
 
-  async turnOff() {
+  turnOff() {
     isBreathing = false;
     isRandom = false;
 
     light.power(false, lightConfig.on_off_period);
   },
 
-  async hue(value) {
+  lowLight() {
+    isRandom = false;
+    isBreathing = false;
+
+    light.power(true, lightConfig.on_off_period, {
+      saturation: 0,
+      brightness: 20,
+      color_temp: 3700
+    });
+  },
+
+  hue(value) {
     isBreathing = false;
     isRandom = false;
 
-    light.power(true, lightConfig.transition_period, {
-      color_temp: 0,
-      saturation: 100,
-      brightness: 80,
-      hue: value
-    });
+    console.log(`Hue -> ${value}`);
+
+    light
+      .power(true, lightConfig.transition_period, {
+        color_temp: 0,
+        saturation: 100,
+        brightness: 10,
+        hue: value
+      })
+      .catch(err => console.error(err));
   },
 
   async cycle() {
@@ -61,7 +77,7 @@ module.exports = {
       i++;
       i = i > 360 ? 0 : i;
 
-      await sleep(transition_period_total);
+      await functions.sleep(transition_period_total);
     } while (isBreathing);
   },
 
@@ -70,7 +86,7 @@ module.exports = {
     isBreathing = false;
 
     do {
-      let value = random(0, 360);
+      let value = functions.random(0, 360);
 
       light
         .power(true, lightConfig.transition_period, {
@@ -81,28 +97,7 @@ module.exports = {
         })
         .catch(err => console.error(err));
 
-      await sleep(transition_period_total);
+      await functions.sleep(transition_period_total);
     } while (isRandom);
-  },
-
-  async lowLight() {
-    isRandom = false;
-    isBreathing = false;
-
-    light.power(true, lightConfig.on_off_period, {
-      saturation: 0,
-      brightness: 20,
-      color_temp: 3700
-    });
   }
 };
-
-function sleep(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-}
-
-function random(low, high) {
-  return Math.floor(Math.random() * (high - low + 1) + low);
-}

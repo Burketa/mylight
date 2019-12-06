@@ -1,9 +1,9 @@
-const request = require("request");
+//Imports
 const config = require("./src/config");
+const functions = require("./src/Functions");
 
-const baseHttp = "http://localhost/light";
-
-const estado = document.querySelector("#header");
+//References
+const header = document.querySelector("#header");
 
 const on = document.querySelector("#on");
 const off = document.querySelector("#off");
@@ -11,37 +11,36 @@ const low = document.querySelector("#low");
 const cycle = document.querySelector("#cycle");
 const rave = document.querySelector("#rave");
 
+const hue = document.querySelector("#hue");
+
+//Listeners
+
 on.addEventListener("click", () => {
-  changeStateText(config.states.on);
-  makeRequest(`${baseHttp}/${config.states.on}`);
+  functions.makeRequest(`${config.baseUrl}/${config.states.on}`);
+  functions.changeStateText(config.states.on, header);
 });
 
 off.addEventListener("click", () => {
-  changeStateText(config.states.off);
-  makeRequest(`${baseHttp}/${config.states.off}`);
+  functions.makeRequest(`${config.baseUrl}/${config.states.off}`);
+  functions.changeStateText(config.states.off, header);
 });
 
 low.addEventListener("click", () => {
-  changeStateText(config.states.low);
-  makeRequest(`${baseHttp}/${config.states.low}`);
+  functions.makeRequest(`${config.baseUrl}/${config.states.low}`);
+  functions.changeStateText(config.states.low, header);
 });
 
 cycle.addEventListener("click", () => {
-  changeStateText(config.states.cycle);
-  makeRequest(`${baseHttp}/${config.states.cycle}`);
+  functions.makeRequest(`${config.baseUrl}/${config.states.cycle}`);
+  functions.changeStateText(config.states.cycle, header);
 });
 
 rave.addEventListener("click", () => {
-  changeStateText(config.states.rave);
-  makeRequest(`${baseHttp}/${config.states.rave}`);
+  functions.makeRequest(`${config.baseUrl}/${config.states.rave}`);
+  functions.changeStateText(config.states.rave, header);
 });
 
-function makeRequest(url) {
-  window.stop();
-  request(url, { json: true }, (err, res, body) => {});
-}
-
-function changeStateText(string) {
-  console.log(string);
-  estado.innerHTML = string;
-}
+hue.addEventListener("change", () => {
+  functions.makeRequest(`${config.baseUrl}/${config.states.hue}/${hue.value}`);
+  functions.changeStateText(hue.value, header);
+});

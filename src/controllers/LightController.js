@@ -1,8 +1,9 @@
-const light = require("./LightFunctions");
 const config = require("../config");
+const light = require("./LightFunctions");
 
 module.exports = {
-  async light(req, res) {
+  light(req, res) {
+    console.log("b " + req.params.state);
     switch (req.params.state) {
       case config.states.on:
         light.turnOn();
@@ -24,9 +25,16 @@ module.exports = {
       case config.states.cycle:
         light.cycle();
         break;
-
-      default:
-        light.toggle();
     }
+
+    res.send("ok");
+  },
+
+  hue(req, res) {
+    console.log("asdasd ");
+
+    light.hue(req.params.value);
+
+    res.send("ok");
   }
 };
