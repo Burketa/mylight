@@ -54,7 +54,7 @@ module.exports = {
         color_temp: 0,
         saturation: 100,
         brightness: 10,
-        hue: value
+        hue: parseInt(value)
       })
       .catch(err => console.error(err));
   },

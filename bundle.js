@@ -12,38 +12,41 @@ const low = document.querySelector("#low");
 const cycle = document.querySelector("#cycle");
 const rave = document.querySelector("#rave");
 
-const hue = document.querySelector("#hue");
+const hueLabel = document.querySelector("#hue-label");
+const hueSlider = document.querySelector("#hue-slider");
 
 //Listeners
 
 on.addEventListener("click", () => {
   functions.makeRequest(`${config.baseUrl}/${config.states.on}`);
-  functions.changeStateText(config.states.on, header);
+  functions.changeElementText(config.states.on, header);
 });
 
 off.addEventListener("click", () => {
   functions.makeRequest(`${config.baseUrl}/${config.states.off}`);
-  functions.changeStateText(config.states.off, header);
+  functions.changeElementText(config.states.off, header);
 });
 
 low.addEventListener("click", () => {
   functions.makeRequest(`${config.baseUrl}/${config.states.low}`);
-  functions.changeStateText(config.states.low, header);
+  functions.changeElementText(config.states.low, header);
 });
 
 cycle.addEventListener("click", () => {
   functions.makeRequest(`${config.baseUrl}/${config.states.cycle}`);
-  functions.changeStateText(config.states.cycle, header);
+  functions.changeElementText(config.states.cycle, header);
 });
 
 rave.addEventListener("click", () => {
   functions.makeRequest(`${config.baseUrl}/${config.states.rave}`);
-  functions.changeStateText(config.states.rave, header);
+  functions.changeElementText(config.states.rave, header);
 });
 
-hue.addEventListener("change", () => {
-  functions.makeRequest(`${config.baseUrl}/${config.states.hue}/${hue.value}`);
-  functions.changeStateText(hue.value, header);
+hueSlider.addEventListener("change", () => {
+  functions.makeRequest(
+    `${config.baseUrl}/${config.states.hue}/${hueSlider.value}`
+  );
+  functions.changeElementText(hueSlider.value, hueLabel);
 });
 
 },{"./src/Functions":2,"./src/config":3}],2:[function(require,module,exports){
@@ -57,7 +60,7 @@ module.exports = {
     }).catch(function(err) {});
   },
 
-  changeStateText(string, element) {
+  changeElementText(string, element) {
     console.log(string);
     element.innerHTML = string;
   },

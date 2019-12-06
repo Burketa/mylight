@@ -8,7 +8,7 @@ module.exports = {
     }).catch(function(err) {});
   },
 
-  changeStateText(string, element) {
+  changeElementText(string, element) {
     console.log(string);
     element.innerHTML = string;
   },
